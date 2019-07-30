@@ -46,4 +46,4 @@ $logErrors = new \zozlak\logging\Log('log_errors', \Psr\Log\LogLevel::ERROR);
 
 \zozlak\logging\Logger::setDefaultLog('all');
 \zozlak\logging\Logger::error('message4'); // written to the 'all' log
-```
+``
