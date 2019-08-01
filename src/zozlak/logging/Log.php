@@ -8,6 +8,8 @@
 
 namespace zozlak\logging;
 
+use DateTime;
+
 /**
  * Description of Log
  *
@@ -38,7 +40,7 @@ class Log extends \Psr\Log\AbstractLogger {
         if ($test >= 0) {
             $message = $this->serialize($message, $context);
             $output  = $this->format . "\n";
-            $output  = str_replace('{TIMESTAMP}', date('Y-m-d H:i:s.u'), $output);
+            $output  = str_replace('{TIMESTAMP}', (new DateTime())->format('Y-m-d H:i:s.u'), $output);
             $output  = str_replace('{LEVEL}', $level, $output);
             $output  = str_replace('{MESSAGE}', $message, $output);
             error_log($output, 3, $this->fileName);
