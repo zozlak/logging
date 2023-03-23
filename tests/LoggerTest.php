@@ -1,9 +1,27 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2019 zozlak.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 namespace zozlak\logging;
@@ -28,7 +46,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function testLogSimple() {
+    public function testLogSimple(): void {
         $this->cleanup();
         $log = new Log($this->getFileName(), LogLevel::INFO, "{LEVEL}\t{MESSAGE}");
         $log->info('aaa');
@@ -38,7 +56,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase {
         $this->cleanup();
     }
 
-    public function testLogObjects() {
+    public function testLogObjects(): void {
         $this->cleanup();
         $log        = new Log($this->getFileName(), LogLevel::INFO, "{MESSAGE}");
         $template   = [];
@@ -56,7 +74,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase {
         $this->cleanup();
     }
 
-    public function testLogPlaceholders() {
+    public function testLogPlaceholders(): void {
         $this->cleanup();
         $log = new Log($this->getFileName(), LogLevel::INFO, "{MESSAGE}");
         $log->setLevel(LogLevel::DEBUG);
@@ -65,7 +83,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase {
         $this->cleanup();
     }
 
-    public function testLoggerBasic() {
+    public function testLoggerBasic(): void {
         $this->cleanup();
         Logger::addLog(new Log($this->getFileName(), LogLevel::INFO, "{MESSAGE}"));
         Logger::info('aaa');
@@ -73,7 +91,7 @@ class LoggerTest extends \PHPUnit\Framework\TestCase {
         $this->cleanup();
     }
 
-    public function testLoggerMany() {
+    public function testLoggerMany(): void {
         $this->cleanup();
         Logger::addLog(new Log($this->getFileName(1), LogLevel::INFO, "{MESSAGE}"), 'log1');
         Logger::addLog(new Log($this->getFileName(2), LogLevel::INFO, "{MESSAGE}"), 'log2', false);
@@ -81,27 +99,28 @@ class LoggerTest extends \PHPUnit\Framework\TestCase {
         Logger::info('bbb', [], 'log1');
         Logger::info('ccc', [], 'log2');
         Logger::setDefaultLog('log2');
-        Logger::info('ddd');        
+        Logger::info('ddd');
         $this->assertEquals("aaa\nbbb\n", file_get_contents($this->getFileName(1)));
         $this->assertEquals("ccc\nddd\n", file_get_contents($this->getFileName(2)));
         $this->cleanup();
     }
 
-    public function testLogLevelException() {
+    public function testLogLevelException(): void {
         $this->expectExceptionMessage('Wrong level(s)');
         LogLevel::compare('aaa', LogLevel::WARNING);
     }
 
-    public function testLoggerNoSuchLog1() {
+    public function testLoggerNoSuchLog1(): void {
         $this->expectExceptionMessage('No such log or default log not set');
         Logger::info('aaa', [], 'xxx');
     }
-    public function testLoggerNoSuchLog2() {
+
+    public function testLoggerNoSuchLog2(): void {
         $this->expectExceptionMessage('No such log');
         Logger::setDefaultLog('xxx');
     }
-    
-    public function testLoggerAllMethods() {
+
+    public function testLoggerAllMethods(): void {
         $this->cleanup();
         Logger::addLog(new Log($this->getFileName(3), LogLevel::DEBUG, '{LEVEL}:{MESSAGE}'));
         Logger::debug('a');
@@ -115,6 +134,14 @@ class LoggerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals("debug:a\ninfo:b\nnotice:c\nwarning:d\nerror:e\ncritical:f\nalert:g\nemergency:h\n", file_get_contents($this->getFileName(3)));
         $this->cleanup();
     }
+
+    public function testTrace(): void {
+        $this->cleanup();
+        Logger::addLog(new Log($this->getFileName(3), LogLevel::DEBUG, '{LEVEL}:{FILE}:{LINE}:{MESSAGE}'));
+        Logger::debug('a');
+        $this->assertEquals("debug:" . __FILE__ . ":141:a\n", file_get_contents($this->getFileName(3)));
+        $this->cleanup();
+    }
 }
 
 class TestException extends \Exception {
@@ -122,5 +149,4 @@ class TestException extends \Exception {
     public function __toString(): string {
         return $this->message;
     }
-
 }

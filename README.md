@@ -10,8 +10,9 @@ A simple file-based PSR-3 logging library.
 * provides basic severity level filtering
 * can be used as a singleton
     * also with multiple logs
-* able to serialize arrays and objects (first tries with `__toString()`, then `json_encode()`)
+* able to serialize arrays and objects (first tries with `__toString()`, then applies `json_encode()`)
 * supports placeholders (see PSR-3)
+* compatible with all PSR-3 releases from 1 on
 
 ## Installation
 
@@ -24,8 +25,14 @@ A simple file-based PSR-3 logging library.
 $log = new \zozlak\logging\Log('log_file');
 $log->info('message');
 
+// logging to standard out/err
+$log = new \zozlak\logging\Log('php://stdout');
+$log->info('message');
+$log = new \zozlak\logging\Log('php://stderr');
+$log->info('message');
+
 // message formatting and filtering
-$log = new \zozlak\logging\Log('log_file', \Psr\Log\LogLevel::INFO, "{LEVEL}:{TIMESTAMP}\t{MESSAGE}");
+$log = new \zozlak\logging\Log('log_file', \Psr\Log\LogLevel::INFO, "{LEVEL}:{TIMESTAMP}:{FILE}:{LINE}:{MESSAGE}");
 $log->info('message');
 $log->debug('skipped message');
 
@@ -34,7 +41,7 @@ $log = new \zozlak\logging\Log('log_file');
 \zozlak\logging\Logger::addLog($log);
 \zozlak\logging\Logger::info('message');
 
-// multiple logs
+// singleton with multiple logs
 $logAll = new \zozlak\logging\Log('log_all');
 $logErrors = new \zozlak\logging\Log('log_errors', \Psr\Log\LogLevel::ERROR);
 \zozlak\logging\Logger::addLog($logAll, 'all');
@@ -46,4 +53,4 @@ $logErrors = new \zozlak\logging\Log('log_errors', \Psr\Log\LogLevel::ERROR);
 
 \zozlak\logging\Logger::setDefaultLog('all');
 \zozlak\logging\Logger::error('message4'); // written to the 'all' log
-``
+```

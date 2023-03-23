@@ -1,0 +1,20 @@
+name: phpunit
+
+on: push
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: test
+      run: |
+        composer update
+        XDEBUG_MODE=coverage vendor/bin/phpunit
+    - name: coveralls
+      run: |
+        export COVERALLS_RUN_LOCALLY=1
+        export COVERALLS_REPO_TOKEN=${{ secrets.coverallsToken }}
+        composer require php-coveralls/php-coveralls
+        php vendor/bin/php-coveralls -v
+
