@@ -82,7 +82,7 @@ class Log extends \Psr\Log\AbstractLogger {
                 $output = str_replace('{LINE}', (string) ($caller['line'] ?? ''), $output);
             }
             $output = str_replace('{MESSAGE}', $message, $output);
-            $f = fopen($this->filename, 'a');
+            $f = fopen($this->fileName, 'a');
             fwrite($f, $output);
             fclose($f);
         }
