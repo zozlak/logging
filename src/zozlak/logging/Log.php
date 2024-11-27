@@ -35,15 +35,22 @@ use DateTime;
  */
 class Log extends \Psr\Log\AbstractLogger {
 
-    private string $fileName;
+    /**
+     * 
+     * @var string|resource
+     */
+    private $output;
     private string $minLevel;
     private string $format;
     private bool $trace;
 
-    public function __construct(string $fileName,
+    /**
+     * @param string|resource $fileNameOrResource
+     */
+    public function __construct(mixed $fileNameOrResource,
                                 string $level = \Psr\Log\LogLevel::DEBUG,
                                 string $format = "{TIMESTAMP}\t{LEVEL}\t{MESSAGE}") {
-        $this->fileName = $fileName;
+        $this->ooutput  = $fileNameOrResource;
         LogLevel::compare($level, $level); // check if level is valid
         $this->minLevel = $level;
         $this->format   = $format;
@@ -82,9 +89,13 @@ class Log extends \Psr\Log\AbstractLogger {
                 $output = str_replace('{LINE}', (string) ($caller['line'] ?? ''), $output);
             }
             $output = str_replace('{MESSAGE}', $message, $output);
-            $f = fopen($this->fileName, 'a');
-            fwrite($f, $output);
-            fclose($f);
+            if (is_resource($this->output)) {
+                fwrite($this->output, $output);
+            } else {
+                $f = fopen($this->output, 'a');
+                fwrite($f, $output);
+                fclose($f);
+            }
         }
     }
 

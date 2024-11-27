@@ -31,6 +31,11 @@ $log->info('message');
 $log = new \zozlak\logging\Log('php://stderr');
 $log->info('message');
 
+// logging to already opened file
+$logFile = tmpfile();
+$log = new \zozlak\logging\Log($logFile);
+$log->info('message');
+
 // message formatting and filtering
 $log = new \zozlak\logging\Log('log_file', \Psr\Log\LogLevel::INFO, "{LEVEL}:{TIMESTAMP}:{FILE}:{LINE}:{MESSAGE}");
 $log->info('message');
