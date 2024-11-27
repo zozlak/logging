@@ -50,7 +50,7 @@ class Log extends \Psr\Log\AbstractLogger {
     public function __construct(mixed $fileNameOrResource,
                                 string $level = \Psr\Log\LogLevel::DEBUG,
                                 string $format = "{TIMESTAMP}\t{LEVEL}\t{MESSAGE}") {
-        $this->ooutput  = $fileNameOrResource;
+        $this->output  = $fileNameOrResource;
         LogLevel::compare($level, $level); // check if level is valid
         $this->minLevel = $level;
         $this->format   = $format;
