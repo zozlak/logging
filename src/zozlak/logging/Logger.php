@@ -43,7 +43,7 @@ class Logger {
     static private array $logs = [];
     static private string $defaultLog;
 
-    static public function addLog(LoggerInterface $log, string $logName = null,
+    static public function addLog(LoggerInterface $log, ?string $logName = null,
                                   bool $makeDefault = true): void {
         $logName              = $logName ?? time() . rand();
         self::$logs[$logName] = $log;
