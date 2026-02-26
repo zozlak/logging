@@ -92,9 +92,11 @@ class Log extends \Psr\Log\AbstractLogger {
             if (is_resource($this->output)) {
                 fwrite($this->output, $output);
             } else {
-                $f = fopen($this->output, 'a');
-                fwrite($f, $output);
-                fclose($f);
+                $f = fopen((string) $this->output, 'a');
+                if ($f !== false) {
+                    fwrite($f, $output);
+                    fclose($f);
+                }
             }
         }
     }

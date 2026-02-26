@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "psr/log": ">=1"
     },
     "autoload": {
@@ -22,7 +22,7 @@
         }
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "*",
         "phpunit/phpunit": "^10.0",
         "psr/log": "^1"
     }
