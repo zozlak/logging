@@ -1,5 +1,5 @@
 [![Latest Stable Version](https://poser.pugx.org/zozlak/logging/v/stable)](https://packagist.org/packages/zozlak/logging)
-[![Build Status](https://travis-ci.org/zozlak/logging.svg?branch=master)](https://travis-ci.org/zozlak/logging)
+[![Build Status](https://github.com/zozlak/logging/actions/workflows/test.yml/badge.svg)](https://github.com/zozlak/logging/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/zozlak/logging/badge.svg?branch=master)](https://coveralls.io/github/zozlak/logging?branch=master)
 [![License](https://poser.pugx.org/zozlak/logging/license)](https://packagist.org/packages/zozlak/logging)
 
