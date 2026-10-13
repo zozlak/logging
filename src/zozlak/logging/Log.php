@@ -35,6 +35,8 @@ use DateTime;
  */
 class Log extends \Psr\Log\AbstractLogger {
 
+    use LogTrait;
+    
     /**
      * 
      * @var string|resource
@@ -55,11 +57,6 @@ class Log extends \Psr\Log\AbstractLogger {
         $this->minLevel = $level;
         $this->format   = $format;
         $this->trace    = (bool) preg_match('/{FILE}|{LINE}/', $format);
-    }
-
-    public function setLevel(string $level): void {
-        LogLevel::compare($level, $level); // check if level is valid
-        $this->minLevel = $level;
     }
 
     /**
@@ -99,86 +96,6 @@ class Log extends \Psr\Log\AbstractLogger {
                 }
             }
         }
-    }
-
-    /**
-     * 
-     * @param mixed $message
-     * @param array<mixed> $context
-     * @return void
-     */
-    public function alert(mixed $message, array $context = []): void {
-        $this->log(LogLevel::ALERT, $message, $context);
-    }
-
-    /**
-     * 
-     * @param mixed $message
-     * @param array<mixed> $context
-     * @return void
-     */
-    public function critical(mixed $message, array $context = []): void {
-        $this->log(LogLevel::CRITICAL, $message, $context);
-    }
-
-    /**
-     * 
-     * @param mixed $message
-     * @param array<mixed> $context
-     * @return void
-     */
-    public function debug(mixed $message, array $context = []): void {
-        $this->log(LogLevel::DEBUG, $message, $context);
-    }
-
-    /**
-     * 
-     * @param mixed $message
-     * @param array<mixed> $context
-     * @return void
-     */
-    public function emergency(mixed $message, array $context = []): void {
-        $this->log(LogLevel::EMERGENCY, $message, $context);
-    }
-
-    /**
-     * 
-     * @param mixed $message
-     * @param array<mixed> $context
-     * @return void
-     */
-    public function error(mixed $message, array $context = []): void {
-        $this->log(LogLevel::ERROR, $message, $context);
-    }
-
-    /**
-     * 
-     * @param mixed $message
-     * @param array<mixed> $context
-     * @return void
-     */
-    public function info(mixed $message, array $context = []): void {
-        $this->log(LogLevel::INFO, $message, $context);
-    }
-
-    /**
-     * 
-     * @param mixed $message
-     * @param array<mixed> $context
-     * @return void
-     */
-    public function notice(mixed $message, array $context = []): void {
-        $this->log(LogLevel::NOTICE, $message, $context);
-    }
-
-    /**
-     * 
-     * @param mixed $message
-     * @param array<mixed> $context
-     * @return void
-     */
-    public function warning(mixed $message, array $context = []): void {
-        $this->log(LogLevel::WARNING, $message, $context);
     }
 
     /**

@@ -5,7 +5,7 @@
 
 # Logging
 
-A simple file-based PSR-3 logging library.
+A simple PSR-3 logging library.
 
 * provides basic severity level filtering
 * can be used as a singleton
@@ -13,6 +13,8 @@ A simple file-based PSR-3 logging library.
 * able to serialize arrays and objects (first tries with `__toString()`, then applies `json_encode()`)
 * supports placeholders (see PSR-3)
 * compatible with all PSR-3 releases from 1 on
+* provides a file-based and memory-based logger
+    * file-based logger can use stdout/stderr streams
 
 ## Installation
 
@@ -58,4 +60,12 @@ $logErrors = new \zozlak\logging\Log('log_errors', \Psr\Log\LogLevel::ERROR);
 
 \zozlak\logging\Logger::setDefaultLog('all');
 \zozlak\logging\Logger::error('message4'); // written to the 'all' log
+
+// memory logger
+$log = new \zozlak\logging\MemoryLog();
+$log->info('info message');
+$log->error('error message');
+foreach ($log as $message) {
+    print_r($message);
+}
 ```
