@@ -59,6 +59,11 @@ class Log extends \Psr\Log\AbstractLogger {
         $this->trace    = (bool) preg_match('/{FILE}|{LINE}/', $format);
     }
 
+    public function setLevel(string $level): void {
+        LogLevel::compare($level, $level); // check if level is valid
+        $this->minLevel = $level;
+    }
+
     /**
      * 
      * @param mixed $level
