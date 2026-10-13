@@ -37,9 +37,17 @@ class MemoryLogTest extends \PHPUnit\Framework\TestCase {
         $log = new MemoryLog();
         $log->info("info msg");
         $log->error("error msg");
+        $log->warning('warning msg');
+        $log->emergency('emergency msg');
+        $log->alert('alert msg');
+        $log->critical('critical msg');
         $ref = [
             new Message(LogLevel::INFO, "info msg"),
             new Message(LogLevel::ERROR, "error msg"),
+            new Message(LogLevel::WARNING, "warning msg"),
+            new Message(LogLevel::EMERGENCY, "emergency msg"),
+            new Message(LogLevel::ALERT, "alert msg"),
+            new Message(LogLevel::CRITICAL, "critical msg"),
         ];
         foreach ($log as $n => $m) {
             $this->assertEquals($ref[$n], $m);
